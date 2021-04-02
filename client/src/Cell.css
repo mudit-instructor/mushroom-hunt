@@ -1,14 +1,20 @@
 .cell {
-    width: 50px;
-    height: 50px;
-    display: inline-block;
-    border: 1px solid lightgrey;
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+  border: 1px solid lightgrey;
 }
 
 .hasPlayer {
+  background-image: url(./mario.jpg);
+  background-size: 150%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 
-    background-image: url(./mario.jpg);
-    background-size: 150%;
-    background-repeat: no-repeat;
-    background-position:center;
+.hasMushroom {
+  background-image: url(./mushroom.jfif);
+  background-size: 80%;
+  background-repeat: no-repeat;
+  background-position: center;
 }
