@@ -20,23 +20,39 @@ function moveHorizontally(horizontalSep, plrColLoc, setPlrColLoc) {
 }
 
 function Board(props) {
-  debugger;
 
   var [plrRowLoc, setPlrRowLoc] = useState(props.plr_row_mid);
   var [plrColLoc, setPlrColLoc] = useState(props.plr_col_mid);
+  var [mushPosArr, setMushPosArr] = useState(props.randomChosenPos);
+  var [stepsTaken, setStepsTaken] = useState(0);
 
-  var getTopMush = props.randomChosenPos[0];
+  var getTopMush = mushPosArr[0];
   var [mushRowLoc, mushColLoc] = getTopMush.split("-");
 
   var verticalSep = mushRowLoc - plrRowLoc;
   var horizontalSep = mushColLoc - plrColLoc;
 
   useEffect(() => {
-    setTimeout(() =>{ 
-      moveHorizontally(horizontalSep, plrColLoc, setPlrColLoc);
+    setTimeout(() => {
       moveVertically(verticalSep, plrRowLoc, setPlrRowLoc);
+      if (verticalSep === 0) {
+        moveHorizontally(horizontalSep, plrColLoc, setPlrColLoc);
+      }
+      if (verticalSep !== 0 || horizontalSep !== 0) {
+        setStepsTaken(stepsTaken + 1);
+      }
+
+      console.log("steps", stepsTaken);
+
+      var currPlrLoc = plrRowLoc + "-" + plrColLoc;
+
+      if (mushPosArr.includes(currPlrLoc)) {
+        setMushPosArr((mushPosArr) => {
+          return mushPosArr.filter(mushPosh => mushPosh !== currPlrLoc);
+        });
+      }
+
     }, 1000);
-    debugger;
   });
 
   var gridJSX = props.grid.map(function (row, indx) {
@@ -47,7 +63,7 @@ function Board(props) {
           id={cell}
           plr_row_mid={plrRowLoc}
           plr_col_mid={plrColLoc}
-          randomChosenPos={props.randomChosenPos}
+          randomChosenPos={mushPosArr}
         />
       );
     });
