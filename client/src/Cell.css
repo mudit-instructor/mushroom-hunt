@@ -5,6 +5,13 @@
   border: 1px solid lightgrey;
 }
 
+.hasMushroom {
+  background-image: url(./mushroom.jfif);
+  background-size: 80%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 .hasPlayer {
   background-image: url(./mario.jpg);
   background-size: 150%;
@@ -12,9 +19,4 @@
   background-position: center;
 }
 
-.hasMushroom {
-  background-image: url(./mushroom.jfif);
-  background-size: 80%;
-  background-repeat: no-repeat;
-  background-position: center;
-}
+

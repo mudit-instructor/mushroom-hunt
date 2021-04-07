@@ -25,7 +25,7 @@ function Cell(props) {
     baseCls = baseCls + " " + topUpCls;
   }
 
-  return <div id={props.id} className={baseCls}></div>;
+  return <div id={props.id} className={baseCls}>{props.id}</div>;
 }
 
 export default Cell;

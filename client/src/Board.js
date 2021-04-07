@@ -1,62 +1,53 @@
 import Row from "./Row.js";
 import Cell from "./Cell.js";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Board.css";
-import _ from "lodash";
 
-function repeatCell(noOfCols) {
-  var cellArr = [];
-  for (var i = 0; i < noOfCols; i++) {
-    cellArr.push(<Cell key={i} />);
+function moveVertically(verticalSep, plrRowLoc, setPlrRowLoc) {
+  if (verticalSep < 0) {
+    setPlrRowLoc(plrRowLoc - 1);
+  } else if (verticalSep > 0) {
+    setPlrRowLoc(plrRowLoc + 1);
   }
-  return cellArr;
 }
 
-function repeatRows(noOfRows, noOfCols) {
-  var rowArr = [];
-  for (var i = 0; i < noOfRows; i++) {
-    rowArr.push(<Row key={i}>{repeatCell(noOfCols)}</Row>);
+function moveHorizontally(horizontalSep, plrColLoc, setPlrColLoc) {
+  if (horizontalSep < 0) {
+    setPlrColLoc(plrColLoc - 1);
+  } else if (horizontalSep > 0) {
+    setPlrColLoc(plrColLoc + 1);
   }
-  return rowArr;
-}
-
-function createGrid(props) {
-  var grid = [],
-    row = [];
-
-  for (var ro = 0; ro < props.rows; ro++) {
-    row = [];
-    for (var col = 0; col < props.cols; col++) {
-      row.push(ro + "-" + col);
-    }
-    grid.push(row);
-  }
-  return grid;
 }
 
 function Board(props) {
-  var plr_row_mid = Math.floor(props.rows / 2);
-  var plr_col_mid = Math.floor(props.cols / 2);
+  debugger;
 
-  var grid = createGrid(props);
+  var [plrRowLoc, setPlrRowLoc] = useState(props.plr_row_mid);
+  var [plrColLoc, setPlrColLoc] = useState(props.plr_col_mid);
 
-  var flatGrid = _.flatten(grid);
+  var getTopMush = props.randomChosenPos[0];
+  var [mushRowLoc, mushColLoc] = getTopMush.split("-");
 
-  var flatGridWithoutPlr = flatGrid.filter(
-    (item) => item !== plr_row_mid + "-" + plr_col_mid
-  );
+  var verticalSep = mushRowLoc - plrRowLoc;
+  var horizontalSep = mushColLoc - plrColLoc;
 
-  var randomChosenPos = _.sampleSize(flatGridWithoutPlr, props.cols);
+  useEffect(() => {
+    setTimeout(() =>{ 
+      moveHorizontally(horizontalSep, plrColLoc, setPlrColLoc);
+      moveVertically(verticalSep, plrRowLoc, setPlrRowLoc);
+    }, 1000);
+    debugger;
+  });
 
-  var gridJSX = grid.map(function (row, indx) {
+  var gridJSX = props.grid.map(function (row, indx) {
     var rowJSX = row.map(function (cell, cid) {
       return (
         <Cell
           key={cell}
           id={cell}
-          plr_row_mid={plr_row_mid}
-          plr_col_mid={plr_col_mid}
-          randomChosenPos={randomChosenPos}
+          plr_row_mid={plrRowLoc}
+          plr_col_mid={plrColLoc}
+          randomChosenPos={props.randomChosenPos}
         />
       );
     });
